@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Jarhead Outpost — Answer the Muster</title>
+<meta name="description" content="A private muster for Marines — find the ones you served with." />
+<style>
+  :root {
+    --scarlet: #9E1B32;
+    --gold: #B08D57;
+    --ink: #0A0A0A;
+    --paper: #12100E;
+    --cream: #ECE6DA;
+    --muted: #9A9284;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background:
+      radial-gradient(120% 90% at 50% -10%, #241a12 0%, var(--paper) 55%, #0b0a08 100%);
+    color: var(--cream);
+    font-family: Georgia, 'Palatino Linotype', Palatino, 'Times New Roman', serif;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .card {
+    width: 100%;
+    max-width: 460px;
+    text-align: center;
+  }
+  .eyebrow {
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 22px;
+  }
+  .wordmark {
+    font-size: clamp(34px, 9vw, 52px);
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1.05;
+    color: var(--cream);
+  }
+  .wordmark span { color: var(--gold); }
+  .rule {
+    width: 64px;
+    height: 2px;
+    background: var(--scarlet);
+    margin: 22px auto;
+  }
+  .tagline {
+    font-size: 18px;
+    line-height: 1.5;
+    color: #cfc6b6;
+    margin-bottom: 8px;
+  }
+  .sub {
+    font-size: 15px;
+    color: #9d968a;
+    margin-bottom: 34px;
+  }
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 17px 20px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    cursor: pointer;
+    margin-bottom: 14px;
+    transition: transform 0.05s ease, opacity 0.15s ease;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--scarlet); color: #fff; border: none; }
+  .btn-outline {
+    background: transparent;
+    color: var(--gold);
+    border: 1.5px solid var(--gold);
+  }
+  .platform-note {
+    font-size: 13px;
+    color: #8b8478;
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+  .foot {
+    margin-top: 40px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #6f695e;
+    text-transform: uppercase;
+  }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+  <main class="card">
+    <div class="eyebrow">Invite-only · For Marines</div>
+    <h1 class="wordmark">JARHEAD <span>OUTPOST</span></h1>
+    <div class="rule"></div>
+    <p class="tagline">Find the Marines you served with.</p>
+    <p class="sub">No feeds. No strangers. Just the Corps. Answer the muster.</p>
+
+    <!-- iPhone gets TestFlight; Android gets the APK; unknown sees both. -->
+    <a id="ios-btn" class="btn btn-primary hidden" href="#">Install on iPhone (TestFlight)</a>
+    <a id="android-btn" class="btn btn-primary hidden" href="#">Install on Android</a>
+
+    <p id="ios-note" class="platform-note hidden">
+      Opens Apple's TestFlight. Install TestFlight first if you don't have it.
+    </p>
+    <p id="android-note" class="platform-note hidden">
+      Downloads the app. If prompted, allow installs from your browser, then open it.
+    </p>
+
+    <div class="foot">Est. 1775, in a Tavern · Mustered MMXXVI</div>
+  </main>
+
+<script>
+  // ---- Fill these two in once the builds exist ----
+  // iOS: your TestFlight public link (App Store Connect → TestFlight → Public Link)
+  var TESTFLIGHT_URL = "https://testflight.apple.com/join/REPLACE_ME";
+  // Android: the EAS build install URL (expo.dev → project → Builds), or a stable /app.apk you host
+  var ANDROID_APK_URL = "https://expo.dev/accounts/jeffrey-stellar/projects/jarhead-outpost/builds/REPLACE_ME";
+  // -------------------------------------------------
+
+  var ua = navigator.userAgent || "";
+  var isIOS = /iPhone|iPad|iPod/i.test(ua) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPadOS
+  var isAndroid = /Android/i.test(ua);
+
+  function show(id) { document.getElementById(id).classList.remove('hidden'); }
+
+  var iosBtn = document.getElementById('ios-btn');
+  var androidBtn = document.getElementById('android-btn');
+  iosBtn.href = TESTFLIGHT_URL;
+  androidBtn.href = ANDROID_APK_URL;
+
+  if (isIOS) {
+    show('ios-btn'); show('ios-note');
+  } else if (isAndroid) {
+    show('android-btn'); show('android-note');
+  } else {
+    // Desktop or unknown — offer both so they can pick / send to their phone.
+    show('ios-btn'); show('android-btn');
+    androidBtn.className = 'btn btn-outline';
+    show('ios-note'); show('android-note');
+  }
+</script>
+</body>
+</html>
