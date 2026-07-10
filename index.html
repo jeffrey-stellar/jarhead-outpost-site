@@ -54,6 +54,14 @@
     background: var(--scarlet);
     margin: 22px auto;
   }
+  .summons {
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .summons b { color: var(--cream); }
   .tagline {
     font-size: 18px;
     line-height: 1.5;
@@ -113,9 +121,10 @@
 <body>
   <main class="card">
     <img class="logo" src="logo.png" width="120" height="120" alt="Jarhead Outpost emblem" />
-    <div class="eyebrow">Invite-only · For Marines</div>
+    <div class="eyebrow" id="eyebrow">Invite-only · For Marines</div>
     <h1 class="wordmark">JARHEAD <span>OUTPOST</span></h1>
     <div class="rule"></div>
+    <p class="summons hidden" id="summons"></p>
     <p class="tagline">Find the Marines you served with.</p>
     <p class="sub">No feeds. No strangers. Just the Corps. Answer the muster.</p>
 
@@ -140,6 +149,24 @@
   // Android: the EAS build install URL (expo.dev → project → Builds), or a stable /app.apk you host
   var ANDROID_APK_URL = "https://expo.dev/accounts/jeffrey-stellar/projects/jarhead-outpost/builds/4474af6e-cd34-49df-861f-15948e997f23";
   // -------------------------------------------------
+
+  // Personalized invite: an inviting Marine's link carries ?from=<name>&units=<units>. Greet the
+  // recruit by who called them in — a summons from a specific Marine, not a generic page.
+  // Use textContent (never innerHTML) so the URL params can't inject markup.
+  try {
+    var params = new URLSearchParams(location.search);
+    var from = (params.get('from') || '').trim().slice(0, 60);
+    var units = (params.get('units') || '').trim().slice(0, 90);
+    if (from) {
+      document.getElementById('eyebrow').textContent = "You've been called to the muster";
+      var summons = document.getElementById('summons');
+      summons.textContent = units
+        ? from + ' is mustering the Marines of ' + units + '.'
+        : from + ' is calling their Marines in.';
+      summons.classList.remove('hidden');
+      document.title = from + ' is mustering — Jarhead Outpost';
+    }
+  } catch (e) { /* bad params — fall back to the generic page */ }
 
   var ua = navigator.userAgent || "";
   var isIOS = /iPhone|iPad|iPod/i.test(ua) ||
