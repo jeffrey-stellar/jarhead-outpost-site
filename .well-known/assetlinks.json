@@ -4,7 +4,7 @@
     "target": {
       "namespace": "android_app",
       "package_name": "app.jarheadoutpost.mobile",
-      "sha256_cert_fingerprints": ["REPLACE_ANDROID_SHA256_FINGERPRINT"]
+      "sha256_cert_fingerprints": ["94:3C:89:46:2C:B1:0A:F6:3B:DC:9E:FD:D5:6B:3C:1D:6E:DB:49:8D:E8:87:01:B8:82:2C:B9:64:5B:4F:CB:71"]
     }
   }
 ]
